@@ -73,3 +73,19 @@ pytest -q bot_service/tests
 > Важно: GitHub Actions не подходит для постоянного 24/7 polling.
 > Job ограничен по времени (в workflow выставлено `timeout-minutes: 360`).
 > Для постоянной работы бота используйте VPS/Cloud Run/Render/Fly.io.
+
+---
+
+## Почему у вас открывается `Example Domain`
+
+Это происходит, когда `WEBAPP_URL` выставлен в `https://example.com`.
+
+Теперь в репозитории есть тестовая Mini App страница: `webapp/index.html`.
+После деплоя GitHub Pages используйте URL вида:
+
+```bash
+export WEBAPP_URL='https://<github-username>.github.io/TgappMy/'
+```
+
+Для автодеплоя добавлен workflow `.github/workflows/deploy-webapp.yml`.
+Он публикует папку `webapp/` в GitHub Pages.
