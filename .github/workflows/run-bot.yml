@@ -1,0 +1,38 @@
+name: Run Telegram Bot (manual)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r bot_service/requirements.txt
+
+      - name: Run bot (polling)
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          WEBAPP_URL: ${{ secrets.WEBAPP_URL }}
+        run: |
+          if [ -z "$BOT_TOKEN" ]; then
+            echo "BOT_TOKEN secret is empty"
+            exit 1
+          fi
+          if [ -z "$WEBAPP_URL" ]; then
+            echo "WEBAPP_URL secret is empty"
+            exit 1
+          fi
+          python -m bot_service.bot.main

@@ -56,3 +56,20 @@ pytest -q bot_service/tests
 
 ### 3) Кнопка Mini App не открывается
 Убедитесь, что `WEBAPP_URL` — валидный HTTPS URL.
+
+---
+
+## Запуск бота через GitHub Actions
+
+Добавлен workflow: `.github/workflows/run-bot.yml`.
+
+1. Откройте репозиторий на GitHub → **Settings → Secrets and variables → Actions**.
+2. Добавьте secrets:
+   - `BOT_TOKEN` — токен Telegram-бота;
+   - `WEBAPP_URL` — HTTPS URL вашего Mini App.
+3. Откройте вкладку **Actions** → workflow **Run Telegram Bot (manual)**.
+4. Нажмите **Run workflow**.
+
+> Важно: GitHub Actions не подходит для постоянного 24/7 polling.
+> Job ограничен по времени (в workflow выставлено `timeout-minutes: 360`).
+> Для постоянной работы бота используйте VPS/Cloud Run/Render/Fly.io.
